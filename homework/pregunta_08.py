@@ -27,3 +27,30 @@ def pregunta_08():
      (9, ['A', 'B', 'C', 'E'])]
 
     """
+    letras_por_numero = {}
+    
+    with open("files/input/data.csv", "r", encoding="utf-8") as file:
+        for line in file:
+            columns = line.strip().split("\t")
+            letra = columns[0]         # Columna 1
+            numero = int(columns[1])   # Columna 2
+            
+            # Si el número ya existe, añadimos la letra al conjunto (.add)
+            # Si no, creamos un conjunto nuevo con esa letra: {letra}
+            if numero in letras_por_numero:
+                letras_por_numero[numero].add(letra)
+            else:
+                letras_por_numero[numero] = {letra}
+                
+    resultado = []
+    # Recorremos los números ordenados de menor a mayor
+    for numero in sorted(letras_por_numero.keys()):
+        # sorted() toma las letras del conjunto, las ordena alfabéticamente
+        # y las convierte automáticamente en una lista normal []
+        letras_ordenadas = sorted(list(letras_por_numero[numero]))
+        resultado.append((numero, letras_ordenadas))
+        
+    return resultado
+
+if __name__ == "__main__":
+    print(pregunta_08())

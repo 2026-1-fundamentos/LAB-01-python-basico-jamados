@@ -26,3 +26,39 @@ def pregunta_06():
      ('jjj', 5, 17)]
 
     """
+    valores_por_clave = {}
+    
+    with open("files/input/data.csv", "r", encoding="utf-8") as file:
+        for line in file:
+            columns = line.strip().split("\t")
+            # La columna 5 es el índice 4. Contiene algo como "aaa:5,bbb:2,ccc:9"
+            columna_5 = columns[4]
+            
+            # 1. Rompemos el texto por las comas para separar cada pareja clave:valor
+            # "aaa:5,bbb:2" -> ['aaa:5', 'bbb:2']
+            parejas = columna_5.split(",")
+            
+            for pareja in parejas:
+                # 2. Rompemos cada pareja por los dos puntos ':'
+                # 'aaa:5' -> ['aaa', '5']
+                clave, valor_texto = pareja.split(":")
+                valor = int(valor_texto)  # Lo convertimos a número entero
+                
+                # 3. Guardamos los números en nuestro diccionario agrupados por su clave
+                if clave in valores_por_clave:
+                    valores_por_clave[clave].append(valor)
+                else:
+                    valores_por_clave[clave] = [valor]
+                    
+    # 4. Construimos la lista final con el mínimo y el máximo de cada clave
+    resultado = []
+    for clave in sorted(valores_por_clave.keys()):
+        lista_numeros = valores_por_clave[clave]
+        minimo = min(lista_numeros)
+        maximo = max(lista_numeros)
+        resultado.append((clave, minimo, maximo))
+        
+    return resultado
+
+if __name__ == "__main__":
+    print(pregunta_06())

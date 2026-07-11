@@ -24,3 +24,33 @@ def pregunta_09():
      'jjj': 18}}
 
     """
+    conteo_claves = {}
+    
+    with open("files/input/data.csv", "r", encoding="utf-8") as file:
+        for line in file:
+            columns = line.strip().split("\t")
+            columna_5 = columns[4]  # Quinta columna (índice 4)
+            
+            # Separamos el texto por las comas para obtener cada par clave:valor
+            parejas = columna_5.split(",")
+            
+            for pareja in parejas:
+                # Separamos la clave de su valor usando el caracter ':'
+                clave, _ = pareja.split(":")
+                
+                # Contamos cuántas veces aparece la clave
+                if clave in conteo_claves:
+                    conteo_claves[clave] += 1
+                else:
+                    conteo_claves[clave] = 1
+                    
+    # Para cumplir exactamente con la Rta (que está ordenada alfabéticamente),
+    # construimos un nuevo diccionario ordenado usando sorted()
+    resultado_ordenado = {}
+    for clave in sorted(conteo_claves.keys()):
+        resultado_ordenado[clave] = conteo_claves[clave]
+        
+    return resultado_ordenado
+
+if __name__ == "__main__":
+    print(pregunta_09())

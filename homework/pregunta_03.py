@@ -15,3 +15,27 @@ def pregunta_03():
     [('A', 53), ('B', 36), ('C', 27), ('D', 31), ('E', 67)]
 
     """
+    sumas_por_letra = {}
+    
+    with open("files/input/data.csv", "r", encoding="utf-8") as file:
+        for line in file:
+            columns = line.strip().split("\t")
+            letra = columns[0]
+            valor = int(columns[1])  # Convertimos la segunda columna a entero
+            
+            # Si la letra ya existe, acumulamos el valor numérico.
+            # Si no existe, la registramos con su primer valor.
+            if letra in sumas_por_letra:
+                sumas_por_letra[letra] += valor
+            else:
+                sumas_por_letra[letra] = valor
+                
+    # Convertimos el diccionario a tuplas y ordenamos alfabéticamente por la letra
+    resultado_ordenado = sorted(sumas_por_letra.items())
+    
+    return resultado_ordenado
+
+# Bloque de prueba local
+if __name__ == "__main__":
+    print(pregunta_03())
+

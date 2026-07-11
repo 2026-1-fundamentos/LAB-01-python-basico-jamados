@@ -26,3 +26,23 @@ def pregunta_04():
      ('12', 3)]
 
     """
+    conteo_meses = {}
+    
+    with open("files/input/data.csv", "r", encoding="utf-8") as file:
+        for line in file:
+            columns = line.strip().split("\t")
+            fecha = columns[2]  # La tercera columna contiene la fecha 'YYYY-MM-DD'
+            
+            # Extraemos el mes separando la fecha por el guion '-'
+            # '2013-05-12'.split('-') -> ['2013', '05', '12'] -> El índice 1 es el mes
+            mes = fecha.split("-")[1]
+            
+            if mes in conteo_meses:
+                conteo_meses[mes] += 1
+            else:
+                conteo_meses[mes] = 1
+                
+    return sorted(conteo_meses.items())
+
+if __name__ == "__main__":
+    print(pregunta_04())
